@@ -6,7 +6,10 @@ in biodiversity collections, field notebooks and survey sheets.
 
 ## Running
 
-The ansible inventories are currently out of date.  You can run DigiVol manually by using gradle to build:
+The ansible inventories are currently out of date. Manually running the application is the only supported method at this time.
+
+### Manual
+You can run DigiVol manually by using gradle to build:
 
 ```bash
 ./gradlew assemble
@@ -14,6 +17,22 @@ java -jar build/libs/volunteer-portal-*.war
 open http://devt.ala.org.au:8080/
 ```
 
+or by using the grails built-in server:
+```bash
+sdk env
+grails run-app
+```
+
+#### Preconditions
+Install postgres and create a database called `volunteers` for DigiVol. Optionally create a new local user and postgres user to act as the database owner. The baseline migration script requires that this user has superuser privileges, so if making a new user ensure it is granted that access with `alter role <digivol> superuser;`. You will also need to change the username/password used to connect to the database in application.yml
+
+Set a password on the database user (either postgres or the user created above), then copy local.properties.template as local.properties and change the username/password (and url if required).
+
+You will also need to ensure `/data/volunteer/` and `/data/volunteer-portal/` exist and are writable by whichever user account you use to run the grails application.
+
+In order to authenticate and use the application you need to either run your own CAS auth server or set up a local webserver/proxy to handle requests for devt.ala.org.au (if using the default auth server of auth.ala.org.au). This can be accomplished by using nginx (installed on localhost) and a site configuration based on devt.ala.org.au.template
+
+### Ansible
 ~~To run up a vagrant instance of DigiVol you can use the volunteer_portal_instance ansible playbook from the
 [AtlasOfLivingAustralia/ala-install] repository.  This will deploy a pre-compiled version from the ALA Maven repository.~~
 

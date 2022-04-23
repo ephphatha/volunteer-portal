@@ -1,0 +1,3 @@
+flywayUrl=jdbc:postgresql://localhost/volunteers
+flywayUsername=postgres
+flywayPassword=password
