@@ -77,7 +77,7 @@ class AjaxController {
 
         projectTypes.each {
             def projects = Project.findAllByProjectType(it)
-            stats[it.description ?: it.name] = Task.countByProjectInList(projects)
+            stats[it.description ?: it.name] = (projects.size() > 0) ? Task.countByProjectInList(projects) : 0
         }
 
         stats.volunteerCount = userService.countActiveUsers()
@@ -296,6 +296,7 @@ class AjaxController {
             results.add(project)
         }
 
+        sql.close()
         render results as JSON
     }
 
